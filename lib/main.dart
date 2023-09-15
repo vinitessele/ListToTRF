@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'cadastroTask.dart';
+import 'listToTask.dart';
 
 main() {
   runApp(ListToTaskApp());
@@ -37,18 +38,20 @@ class MyHome extends StatelessWidget {
               subtitle: Text("Adicione aqui minhas Tarefas..."),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => cadastroTask()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => cadastroTask()));
               },
             ),
             ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text("Veja suas Tarefas"),
-                subtitle: Text("Aqui você pode visualizar suas trfs..."),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  debugPrint('Ver');
-                }),
+              leading: Icon(Icons.account_circle),
+              title: Text("Veja suas Tarefas"),
+              subtitle: Text("Aqui você pode visualizar suas trfs..."),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => listtoTask()));
+              },
+            ),
           ],
         ),
       ),

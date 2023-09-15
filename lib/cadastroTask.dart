@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'listToTask.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 
 class cadastroTask extends StatefulWidget {
   @override
@@ -12,7 +12,12 @@ class _cadastroTaskState extends State<cadastroTask> {
   TextEditingController _descricaoController = TextEditingController();
   TextEditingController _dateInput = TextEditingController();
   TextEditingController _timeinput = TextEditingController();
-  List<Task> listaTask = [];
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  final _firstDay = DateTime(1950);
+  final _lastDay = DateTime(2100);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +33,8 @@ class _cadastroTaskState extends State<cadastroTask> {
             fieldDataTRF(),
             sizedBox(),
             fieldHoraTRF(),
+            sizedBox(),
+            fieldCalendario()
           ])
         ],
       ),
@@ -39,6 +46,46 @@ class _cadastroTaskState extends State<cadastroTask> {
               _descricaoController.text, _dateInput.text, _timeinput.text);
         },
         child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget fieldCalendario() {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      elevation: 5.0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+        side: BorderSide(color: Colors.black87, width: 2.0),
+      ),
+      child: TableCalendar(
+        firstDay: _firstDay,
+        lastDay: _lastDay,
+        focusedDay: _focusedDay,
+        calendarFormat: _calendarFormat,
+        selectedDayPredicate: (day) {
+          return isSameDay(_selectedDay, day);
+        },
+        onDaySelected: (selectedDay, focusedDay) {
+          if (!isSameDay(_selectedDay, selectedDay)) {
+            setState(() {
+              _selectedDay = selectedDay;
+              _focusedDay = focusedDay;
+            });
+          }
+        },
+        onFormatChanged: (format) {
+          if (_calendarFormat != format) {
+            setState(() {
+              _calendarFormat = format;
+            });
+          }
+        },
+        onPageChanged: (focusedDay) {
+          _focusedDay = focusedDay;
+        },
       ),
     );
   }
@@ -107,7 +154,7 @@ class _cadastroTaskState extends State<cadastroTask> {
           );
           if (pickedTime != null) {
             setState(() {
-              _timeinput.text =  pickedTime.format(context);
+              _timeinput.text = pickedTime.format(context);
             });
           }
         },
@@ -119,12 +166,4 @@ class _cadastroTaskState extends State<cadastroTask> {
     Task t = Task(descricao, data, hora);
     listaTask.add(t);
   }
-}
-
-class Task {
-  String descricao;
-  String data;
-  String hora;
-
-  Task(this.descricao, this.data, this.hora);
 }

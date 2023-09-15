@@ -38,7 +38,7 @@ class MyHome extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => cadastriTask()));
+                    context, MaterialPageRoute(builder: (context) => cadastroTask()));
               },
             ),
             ListTile(
@@ -53,7 +53,7 @@ class MyHome extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Lista de TRFs'),
+        title: const Text('App Lista de TRFs'),
       ),
       body: Center(child: Image.asset("assets/images/fundo.png")),
     );
